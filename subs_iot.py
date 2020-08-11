@@ -1,6 +1,4 @@
 # Get and plot data from Watson IoT using Python
-import json
-import base64
 from random import uniform
 from time import sleep
 
@@ -18,7 +16,7 @@ count=0
 # plot data
 while True:
     #global count
-    tmp = uniform(20.0,25.0)
+    tmp = uniform(20.0,30.0)
     hum = uniform(30,100)
     print(tmp)
     print(hum)
