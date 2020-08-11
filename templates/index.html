@@ -1,0 +1,71 @@
+<html>  
+<head>
+    <meta name="viewport" charset="UTF-8" content="initial-scale=1.0, width=device-width" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+  
+<body style='margin: 0'>
+<div style="width: 100%; height: 100%" id="mapContainer"></div>
+
+<script>	
+      var platform = new H.service.Platform({
+            apikey: "WEZsXlgadF5ZhPtPTsvYhuuSGSUoIt2mnR3orK5MxSU"   
+        });
+
+        //const lat = {{lat}};
+        var lat = 12.9716;
+        //const lng = {{lng}};
+        var lng = 77.5946;
+
+	// Obtain the default map types from the platform object
+    var defaultLayers = platform.createDefaultLayers();
+
+    // Your current position
+    var myPosition = {lat: lat, lng: lng};
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+        document.getElementById('mapContainer'),
+        defaultLayers.vector.normal.map,
+        {
+            zoom: 14,
+            center: myPosition
+        });
+
+    var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+
+    var mapEvents = new H.mapevents.MapEvents(map);
+    var behavior = new H.mapevents.Behavior(mapEvents);
+		
+	// create an icon for the marker. Choose any image you want. I created mine using draw.io 
+    var homeIcon = new H.map.Icon('/static/home.png'); 
+            
+    // Create a marker using the previously instantiated icon:
+    var posMarker = new H.map.Marker(myPosition,{icon:homeIcon});
+                    
+    // Add the marker to the map 
+    map.addObject(posMarker);
+
+    
+    $(document).ready(function(){
+        //connect to the socket server.
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+        var numbers_received = [];
+
+        //receive details from server
+        socket.on('newdata', function(msg) {
+            console.log(msg);
+            map.setCenter(msg)
+            posMarker.setGeometry(msg);
+        });
+    });
+
+</script>
+</body>
+</html>
