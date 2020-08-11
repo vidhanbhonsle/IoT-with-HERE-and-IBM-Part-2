@@ -1,6 +1,6 @@
-#Build a location aware IoT Ecosystem with HERE and IBM Cloud – Part 2
+# Build a location aware IoT Ecosystem with HERE and IBM Cloud – Part 2
 
-##Introduction
+## Introduction
 
 Purpose: To monitor a person's temperate and guide them to reach the nearest hospital in case of emergency. This will be done by tracking their location, sending them the routing instructions and showing the route on map.
 
